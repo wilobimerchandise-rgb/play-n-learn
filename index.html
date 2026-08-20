@@ -80,6 +80,7 @@
     let coins = 240;
     
     function startGame(gameName) {
+      // Track in Google Analytics
       gtag('event','play_game',{game_name: gameName});
       
       if(gameName === 'Math') {
@@ -93,13 +94,15 @@
       let num1 = Math.floor(Math.random() * 10) + 1;
       let num2 = Math.floor(Math.random() * 10) + 1;
       let answer = num1 + num2;
+      let wrong1 = answer + 1;
+      let wrong2 = answer - 1;
       
       document.getElementById('gameArea').innerHTML = `
         <h2>🧮 Math Game</h2>
         <div class="question">What is ${num1} + ${num2}?</div>
         <button class="answer-btn" onclick="checkAnswer(${answer}, ${answer})">${answer}</button>
-        <button class="answer-btn" onclick="checkAnswer(${answer}, ${answer+1})">${answer+1}</button>
-        <button class="answer-btn" onclick="checkAnswer(${answer}, ${answer-1})">${answer-1}</button>
+        <button class="answer-btn" onclick="checkAnswer(${answer}, ${wrong1})">${wrong1}</button>
+        <button class="answer-btn" onclick="checkAnswer(${answer}, ${wrong2})">${wrong2}</button>
       `;
     }
 
@@ -115,4 +118,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
