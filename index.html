@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Play N Learn - Wilo 🦉</title>
-  <meta name="description" content="Free educational games for kids">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXGDB7DE10"></script>
@@ -17,34 +16,93 @@
 
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      text-align: center;
-      background: #FFF8E1;
-      padding: 20px;
-    }
-    h1 { color: #FF6F00; font-size: 2em; }
-    .btn {
-      background: #4CAF50;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(180deg, #4A148C 0%, #880E4F 100%);
       color: white;
-      border: none;
-      padding: 15px 30px;
-      margin: 10px;
-      font-size: 18px;
-      border-radius: 15px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
     }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .coins {
+      background: #FFC107;
+      color: black;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    h1 {
+      background: linear-gradient(90deg, #FFEB3B, #E91E63, #2196F3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2em;
+      margin: 10px 0;
+    }
+    .owl { font-size: 80px; margin: 10px 0; }
+    .quote { color: #80D8FF; font-size: 1.1em; margin: 10px 0; }
+    .subjects { margin: 10px 0 30px; }
+    
+    .btn-main {
+      background: linear-gradient(90deg, #FFC107, #FF5722);
+      color: black;
+      border: none;
+      padding: 18px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 25px;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px auto;
+      cursor: pointer;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .btn {
+      border: none;
+      padding: 20px;
+      border-radius: 15px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-math { background: #7B1FA2; }
+    .btn-science { background: #1976D2; }
+    .btn-words { background: #D32F2F; }
+    .btn-memory { background: #388E3C; }
     .btn:hover { transform: scale(1.05); }
-    .btn-math { background: #2196F3; }
-    .btn-memory { background: #E91E63; }
   </style>
 </head>
 <body>
-  <h1>Welcome to Play N Learn!</h1>
-  <p style="font-size: 20px;">Learning with Wilo 🦉</p>
+  <div class="header">
+    <h2>Play N Learn</h2>
+    <div class="coins">💰 <span id="coins">240</span></div>
+  </div>
 
-  <button class="btn btn-math" onclick="trackGame('Math')">🧮 Math Game</button>
-  <button class="btn btn-memory" onclick="trackGame('Memory')">🧠 Memory Game</button>
+  <h1>Hi There, Superstar!</h1>
+  <div class="owl">🦉</div>
+  <p class="quote">"Wilo: Let's train your brain!"</p>
+  <p class="subjects">Math, Science, Words & Memory!</p>
+
+  <button class="btn-main" onclick="trackGame('Arcade')">🎮 Enter Arcade 🎮</button>
+
+  <div class="grid">
+    <button class="btn btn-math" onclick="trackGame('Math')">🎈 Math</button>
+    <button class="btn btn-science" onclick="trackGame('Science')">✏️ Science</button>
+    <button class="btn btn-words" onclick="trackGame('Words')">abc Words</button>
+    <button class="btn btn-memory" onclick="trackGame('Memory')">🧠 Memory</button>
+  </div>
 
   <script>
     function trackGame(gameName) {
@@ -53,10 +111,9 @@
         'game_name': gameName
       });
       
-      // Start the game
-      alert(gameName + ' Game Starting! 🎉');
-      // Replace alert with your real game code
+      alert(gameName + ' Starting! 🎉');
+      // Add your real game code here
     }
   </script>
 </body>
-</html>
+    </html>
