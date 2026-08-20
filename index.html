@@ -1,12 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Play N Learn</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play N Learn - Wilo</title>
+  <meta name="description" content="Free educational games for kids by Wilo">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXGDB7DE10"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXGDB7DE10');
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico">
+</head>
+<body>
+  <div id="app">
+    <!-- Your game content goes here -->
+    <h1>Welcome to Play N Learn!</h1>
+    <p>Learning with Wilo 🦉</p>
+    
+    <!-- Your game buttons -->
+    <button onclick="startMathGame()">Math Game</button>
+    <button onclick="startMemoryGame()">Memory Game</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
