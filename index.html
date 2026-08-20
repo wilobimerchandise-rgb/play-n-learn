@@ -24,19 +24,8 @@
       padding: 20px;
       min-height: 100vh;
     }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .coins {
-      background: #FFC107;
-      color: black;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-    }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .coins { background: #FFC107; color: black; padding: 8px 15px; border-radius: 20px; font-weight: bold; }
     h1 {
       background: linear-gradient(90deg, #FFEB3B, #E91E63, #2196F3);
       -webkit-background-clip: text;
@@ -46,74 +35,54 @@
     }
     .owl { font-size: 80px; margin: 10px 0; }
     .quote { color: #80D8FF; font-size: 1.1em; margin: 10px 0; }
-    .subjects { margin: 10px 0 30px; }
-    
     .btn-main {
       background: linear-gradient(90deg, #FFC107, #FF5722);
-      color: black;
-      border: none;
-      padding: 18px;
-      width: 90%;
-      max-width: 400px;
-      border-radius: 25px;
-      font-size: 20px;
-      font-weight: bold;
-      margin: 20px auto;
-      cursor: pointer;
+      color: black; border: none; padding: 18px; width: 90%; max-width: 400px;
+      border-radius: 25px; font-size: 20px; font-weight: bold; margin: 20px auto; cursor: pointer;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 400px; margin: 0 auto; }
     .btn {
-      border: none;
-      padding: 20px;
-      border-radius: 15px;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
+      border: none; padding: 20px; border-radius: 15px; color: white;
+      font-size: 16px; font-weight: bold; cursor: pointer;
     }
     .btn-math { background: #7B1FA2; }
     .btn-science { background: #1976D2; }
     .btn-words { background: #D32F2F; }
     .btn-memory { background: #388E3C; }
-    .btn:hover { transform: scale(1.05); }
+    #gameArea { margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 15px; display: none; }
   </style>
 </head>
 <body>
   <div class="header">
     <h2>Play N Learn</h2>
-    <div class="coins">💰 <span id="coins">240</span></div>
+    <div class="coins">💰 240</div>
   </div>
 
   <h1>Hi There, Superstar!</h1>
   <div class="owl">🦉</div>
   <p class="quote">"Wilo: Let's train your brain!"</p>
-  <p class="subjects">Math, Science, Words & Memory!</p>
+  <p>Math, Science, Words & Memory!</p>
 
-  <button class="btn-main" onclick="trackGame('Arcade')">🎮 Enter Arcade 🎮</button>
+  <button class="btn-main" onclick="startGame('Arcade')">🎮 Enter Arcade 🎮</button>
 
   <div class="grid">
-    <button class="btn btn-math" onclick="trackGame('Math')">🎈 Math</button>
-    <button class="btn btn-science" onclick="trackGame('Science')">✏️ Science</button>
-    <button class="btn btn-words" onclick="trackGame('Words')">abc Words</button>
-    <button class="btn btn-memory" onclick="trackGame('Memory')">🧠 Memory</button>
+    <button class="btn btn-math" onclick="startGame('Math')">🎈 Math</button>
+    <button class="btn btn-science" onclick="startGame('Science')">✏️ Science</button>
+    <button class="btn btn-words" onclick="startGame('Words')">abc Words</button>
+    <button class="btn btn-memory" onclick="startGame('Memory')">🧠 Memory</button>
   </div>
 
+  <div id="gameArea"></div>
+
   <script>
-    function trackGame(gameName) {
-      // Send to Google Analytics
-      gtag('event', 'play_game', {
-        'game_name': gameName
-      });
+    function startGame(gameName) {
+      // Track in Google Analytics
+      gtag('event','play_game',{game_name: gameName});
       
-      alert(gameName + ' Starting! 🎉');
-      // Add your real game code here
+      // Show game instead of popup
+      document.getElementById('gameArea').style.display = 'block';
+      document.getElementById('gameArea').innerHTML = `<h2>${gameName} Game</h2><p>Coming Soon! Wilo is building this 🚧</p>`;
     }
   </script>
 </body>
-    </html>
+</html>
