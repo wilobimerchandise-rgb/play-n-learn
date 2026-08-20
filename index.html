@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Play N Learn - Wilo</title>
-  <meta name="description" content="Free educational games for kids by Wilo">
+  <title>Play N Learn - Wilo 🦉</title>
+  <meta name="description" content="Free educational games for kids">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXGDB7DE10"></script>
@@ -15,20 +15,48 @@
     gtag('config', 'G-XXGDB7DE10');
   </script>
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="favicon.ico">
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background: #FFF8E1;
+      padding: 20px;
+    }
+    h1 { color: #FF6F00; font-size: 2em; }
+    .btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 18px;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn:hover { transform: scale(1.05); }
+    .btn-math { background: #2196F3; }
+    .btn-memory { background: #E91E63; }
+  </style>
 </head>
 <body>
-  <div id="app">
-    <!-- Your game content goes here -->
-    <h1>Welcome to Play N Learn!</h1>
-    <p>Learning with Wilo 🦉</p>
-    
-    <!-- Your game buttons -->
-    <button onclick="startMathGame()">Math Game</button>
-    <button onclick="startMemoryGame()">Memory Game</button>
-  </div>
+  <h1>Welcome to Play N Learn!</h1>
+  <p style="font-size: 20px;">Learning with Wilo 🦉</p>
 
-  <script src="script.js"></script>
+  <button class="btn btn-math" onclick="trackGame('Math')">🧮 Math Game</button>
+  <button class="btn btn-memory" onclick="trackGame('Memory')">🧠 Memory Game</button>
+
+  <script>
+    function trackGame(gameName) {
+      // Send to Google Analytics
+      gtag('event', 'play_game', {
+        'game_name': gameName
+      });
+      
+      // Start the game
+      alert(gameName + ' Game Starting! 🎉');
+      // Replace alert with your real game code
+    }
+  </script>
 </body>
 </html>
