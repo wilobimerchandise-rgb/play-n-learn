@@ -1,15 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-// SOUND EFFECTS
-const playSound = (type) => {
-  const sounds = {
-    pop: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3'),
-    correct: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3'),
-    wrong: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3'),
-    win: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3')
-  };
-  sounds[type]?.play().catch(()=>{});
+// SOUND HOOK - WORKS ON MOBILE
+const useSounds = () => {
+  const sounds = useRef({});
+  const unlocked = useRef(false);
+
+  useEffect(() => {
+    // Preload sounds
+    sounds.current = {
+      pop: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3'),
+      correct: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3'),
+      wrong: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3'),
+      win: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3')
+    };
+    Object.values(sounds.current).forEach(s => s.volume = 0.4);
+  }, []);
+
+  const unlockAudio = () => {
+    if(!unlocked.current){
+      Object.values(sounds.current).forEach(s => { s.play().then(()=>s.pause()).catch(()=>{}) });
+      unlocked.current = true;
+    }
+  }
+
+  const playSound = (type) => {
+    unlockAudio();
+    const sound = sounds.current[type];
+    if(sound){
+      sound.currentTime = 0;
+      sound.play().catch(()=>{});
+    }
+  }
+  return playSound;
 }
 
 function Badges({ coins, lastScore, game }) {
@@ -71,7 +94,7 @@ function Games({ setScreen }) {
   );
 }
 
-function MathGame({ setScreen, addCoins }) {
+function MathGame({ setScreen, addCoins, playSound }) {
   const [score, setScore] = useState(0);
   const [qNum, setQNum] = useState(1);
   const [gameOver, setGameOver] = useState(false);
@@ -123,7 +146,7 @@ function MathGame({ setScreen, addCoins }) {
   );
 }
 
-function ScienceGame({ setScreen, addCoins }) {
+function ScienceGame({ setScreen, addCoins, playSound }) {
   const questions = [
     { q: "What do plants need to grow?", options: ["Water", "Rocks", "Plastic"], a: "Water" },
     { q: "Which planet is called the Red Planet?", options: ["Earth", "Mars", "Jupiter"], a: "Mars" },
@@ -178,7 +201,7 @@ function ScienceGame({ setScreen, addCoins }) {
   );
 }
 
-function WordGame({ setScreen, addCoins }) {
+function WordGame({ setScreen, addCoins, playSound }) {
   const wordData = [
     { word: "PLANET", tip: "We live on Earth, it's a big ____ in space" },
     { word: "GARDEN", tip: "Flowers and vegetables grow here" },
@@ -252,7 +275,7 @@ function WordGame({ setScreen, addCoins }) {
       </div>
 
       {showTip && (
-        <div className="bg-yellow-400/20 border border-yellow-400 p-3 rounded-xl text-yellow-200">
+        <div className="bg-yellow-400/20 border-yellow-400 p-3 rounded-xl text-yellow-200">
           💡 Hint: {data.tip}
         </div>
       )}
@@ -275,7 +298,7 @@ function WordGame({ setScreen, addCoins }) {
   )
 }
 
-function MemoryGame({ setScreen, addCoins }) {
+function MemoryGame({ setScreen, addCoins, playSound }) {
   const emojis = ["🐶", "🐱", "🦊", "🐻", "🐼", "🦁", "🐯", "🐨", "🐸", "🐵"];
   const [cards, setCards] = useState([]);
   const [flipped, setFlipped] = useState([]);
@@ -341,6 +364,7 @@ function MemoryGame({ setScreen, addCoins }) {
 export default function App() {
   const [screen, setScreen] = useState('home');
   const [coins, setCoins] = useState(240);
+  const playSound = useSounds(); // SOUND HOOK HERE
   const addCoins = (amount) => setCoins(c => c + amount);
 
   return (
@@ -352,10 +376,10 @@ export default function App() {
 
       {screen === 'home' && <Home setScreen={setScreen} />}
       {screen === 'games' && <Games setScreen={setScreen} />}
-      {screen === 'math' && <MathGame setScreen={setScreen} addCoins={addCoins} />}
-      {screen === 'science' && <ScienceGame setScreen={setScreen} addCoins={addCoins} />}
-      {screen === 'word' && <WordGame setScreen={setScreen} addCoins={addCoins} />}
-      {screen === 'memory' && <MemoryGame setScreen={setScreen} addCoins={addCoins} />}
+      {screen === 'math' && <MathGame setScreen={setScreen} addCoins={addCoins} playSound={playSound} />}
+      {screen === 'science' && <ScienceGame setScreen={setScreen} addCoins={addCoins} playSound={playSound} />}
+      {screen === 'word' && <WordGame setScreen={setScreen} addCoins={addCoins} playSound={playSound} />}
+      {screen === 'memory' && <MemoryGame setScreen={setScreen} addCoins={addCoins} playSound={playSound} />}
     </div>
   );
-                                    }
+    }
