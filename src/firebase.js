@@ -1,17 +1,17 @@
-// Get these from https://console.firebase.google.com
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_AUTH_DOMAIN",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_STORAGE_BUCKET",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyCy3Sa-tylCABjSYHcjuAU23aR3Hfc95Ik",
+  authDomain: "play-n-learn-children.firebaseapp.com",
+  projectId: "play-n-learn-children",
+  storageBucket: "play-n-learn-children.firebasestorage.app",
+  messagingSenderId: "1068690248417",
+  appId: "1:1068690248417:web:4b4da5b4358dc618af1da0"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
