@@ -49,13 +49,15 @@
     .btn-science { background: #1976D2; }
     .btn-words { background: #D32F2F; }
     .btn-memory { background: #388E3C; }
-    #gameArea { margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 15px; display: none; }
+    #gameArea { margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 15px; }
+    .question { font-size: 24px; margin: 20px 0; }
+    .answer-btn { background: white; color: black; margin: 5px; padding: 15px; border-radius: 10px; border: none; width: 80px; font-size: 18px; cursor: pointer; }
   </style>
 </head>
 <body>
   <div class="header">
     <h2>Play N Learn</h2>
-    <div class="coins">💰 240</div>
+    <div class="coins">💰 <span id="coins">240</span></div>
   </div>
 
   <h1>Hi There, Superstar!</h1>
@@ -75,14 +77,42 @@
   <div id="gameArea"></div>
 
   <script>
+    let coins = 240;
+    
     function startGame(gameName) {
-      // Track in Google Analytics
       gtag('event','play_game',{game_name: gameName});
       
-      // Show game instead of popup
-      document.getElementById('gameArea').style.display = 'block';
-      document.getElementById('gameArea').innerHTML = `<h2>${gameName} Game</h2><p>Coming Soon! Wilo is building this 🚧</p>`;
+      if(gameName === 'Math') {
+        startMathGame();
+      } else {
+        document.getElementById('gameArea').innerHTML = `<h2>${gameName} Game</h2><p>Coming Soon! Wilo is building this 🚧</p>`;
+      }
+    }
+
+    function startMathGame() {
+      let num1 = Math.floor(Math.random() * 10) + 1;
+      let num2 = Math.floor(Math.random() * 10) + 1;
+      let answer = num1 + num2;
+      
+      document.getElementById('gameArea').innerHTML = `
+        <h2>🧮 Math Game</h2>
+        <div class="question">What is ${num1} + ${num2}?</div>
+        <button class="answer-btn" onclick="checkAnswer(${answer}, ${answer})">${answer}</button>
+        <button class="answer-btn" onclick="checkAnswer(${answer}, ${answer+1})">${answer+1}</button>
+        <button class="answer-btn" onclick="checkAnswer(${answer}, ${answer-1})">${answer-1}</button>
+      `;
+    }
+
+    function checkAnswer(correct, picked) {
+      if(correct === picked) {
+        coins += 10;
+        document.getElementById('coins').innerText = coins;
+        alert('Correct! +10 Coins 🎉');
+        startMathGame();
+      } else {
+        alert('Try Again! 💪');
+      }
     }
   </script>
 </body>
-</html>
+  </html>
