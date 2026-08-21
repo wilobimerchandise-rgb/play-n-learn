@@ -18,23 +18,24 @@ const gameList = [
 export default function App() {
   const [currentGame, setCurrentGame] = useState(null);
 
-  // If a game is selected, show it
   if (currentGame) {
-    const GameComponent = gameList.find(g => g.id === currentGame).component;
+    const game = gameList.find(g => g.id === currentGame);
+    const GameComponent = game.component;
     return (
-      <div>
+      <div className="min-h-screen bg-gray-900 text-white">
         <button 
           onClick={() => setCurrentGame(null)} 
-          className="fixed top-4 left-4 bg-white text-black font-bold px-4 py-2 rounded-xl z-50"
+          className="fixed top-4 left-4 bg-white text-black font-bold px-4 py-2 rounded-xl z-50 shadow-lg"
         >
           ← Home
         </button>
-        <GameComponent />
+        <div className="pt-16">
+          <GameComponent />
+        </div>
       </div>
     );
   }
 
-  // HOME SCREEN
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 text-white p-6">
       <h1 className="text-4xl font-bold text-center mb-2">Play N Learn 🦉</h1>
