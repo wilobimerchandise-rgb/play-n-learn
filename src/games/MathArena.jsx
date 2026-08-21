@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 export default function MathArena({ onBack, addCoins, addXp, showToast }) {
   const [playerHp, setPlayerHp] = useState(100);
@@ -51,8 +50,8 @@ export default function MathArena({ onBack, addCoins, addXp, showToast }) {
       <button onClick={onBack} className="mb-4 bg-white text-purple-900 px-4 py-2 rounded-xl font-bold">← Back Home</button>
       <h1 className="text-3xl text-center mb-4">Wilo's Math Arena ⚔️</h1>
       <div className="flex justify-between mb-8">
-        <div>You <div className="w-40 h-4 bg-gray-700 rounded-full mt-1"><motion.div animate={{width: `${playerHp}%`}} className="h-4 bg-green-500 rounded-full"/></div></div>
-        <div>Monster <div className="w-40 h-4 bg-gray-700 rounded-full mt-1"><motion.div animate={{width: `${monsterHp}%`}} className="h-4 bg-red-500 rounded-full"/></div></div>
+        <div>You <div className="w-40 h-4 bg-gray-700 rounded-full mt-1"><div style={{width: `${playerHp}%`}} className="h-4 bg-green-500 rounded-full transition-all"/></div></div>
+        <div>Monster <div className="w-40 h-4 bg-gray-700 rounded-full mt-1"><div style={{width: `${monsterHp}%`}} className="h-4 bg-red-500 rounded-full transition-all"/></div></div>
       </div>
       <div className="text-center">
         <div className="text-5xl font-bold mb-4">{question.text}</div>
@@ -62,4 +61,4 @@ export default function MathArena({ onBack, addCoins, addXp, showToast }) {
       </div>
     </div>
   );
-                }
+    }
