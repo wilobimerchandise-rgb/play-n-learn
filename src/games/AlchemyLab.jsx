@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 
 const recipes = {
   'Water+Fire': 'Steam', 'Water+Earth': 'Mud', 'Water+Air': 'Rain',
