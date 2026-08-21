@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 
 const blocks = ['Move Forward', 'Turn Left', 'Jump', 'Repeat 2x'];
 
