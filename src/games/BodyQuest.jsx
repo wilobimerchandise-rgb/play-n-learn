@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 
 const organs = [
   { name: 'Heart', fact: 'Heart pumps blood! ❤️' },
