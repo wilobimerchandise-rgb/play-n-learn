@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 
 const questions = [
   { q: "Who was the first President of Nigeria?", a: ["Nnamdi Azikiwe", "Obafemi Awolowo", "Ahmadu Bello"], correct: 0 },
