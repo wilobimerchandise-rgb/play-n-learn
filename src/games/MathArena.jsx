@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export default function MathArena({ onBack, addCoins, addXp, showToast }) {
   const [playerHp, setPlayerHp] = useState(100);
   const [monsterHp, setMonsterHp] = useState(100);
-  const [question, setQuestion] = useState({ text: "2 + 2 =?", answer: 4 });
+  const [question, setQuestion] = useState({ text: "2 + 2 = ?", answer: 4 });
   const [answer, setAnswer] = useState('');
   const [timer, setTimer] = useState(10);
 
@@ -12,53 +12,116 @@ export default function MathArena({ onBack, addCoins, addXp, showToast }) {
     const op = ops[Math.floor(Math.random() * ops.length)];
     const a = Math.floor(Math.random() * 12) + 1;
     const b = Math.floor(Math.random() * 12) + 1;
-    let ans = eval(`${a}${op}${b}`);
-    setQuestion({ text: `${a} ${op} ${b} =?`, answer: ans });
+    
+    let ans = 0;
+    if (op === '+') ans = a + b;
+    if (op === '-') ans = a - b;
+    if (op === '*') ans = a * b;
+    
+    setQuestion({ text: `${a} ${op} ${b} = ?`, answer: ans });
     setTimer(10);
   };
 
-  useEffect(() => { newQuestion(); }, []);
+  useEffect(() => { 
+    newQuestion(); 
+  }, []);
 
   useEffect(() => {
+    if (timer <= 0) return;
     const t = setTimeout(() => {
-      if(timer > 0) setTimer(timer - 1);
-      else { setPlayerHp(h => Math.max(0, h - 10)); showToast("Too slow! Monster hit you!"); newQuestion(); }
+      setTimer(timer - 1);
     }, 1000);
     return () => clearTimeout(t);
   }, [timer]);
 
+  useEffect(() => {
+    if (timer === 0) {
+      setPlayerHp(h => Math.max(0, h - 10));
+      if(showToast) showToast("Too slow! Monster hit you!");
+      newQuestion();
+    }
+  }, [timer]);
+
   const handleAttack = () => {
     if(answer === '') return;
-    if(parseInt(answer) === question.answer) {
-      setMonsterHp(h => Math.max(0, h - 25));
-      addCoins(10); addXp(20);
-      showToast("Direct Hit! 🎯");
-      if(monsterHp <= 25) {
-        addCoins(50); addXp(50); showToast("You Won! 🏆");
-        setMonsterHp(100); setPlayerHp(100);
+    const numAnswer = parseInt(answer);
+    
+    if(numAnswer === question.answer) {
+      const newMonsterHp = Math.max(0, monsterHp - 25);
+      setMonsterHp(newMonsterHp);
+      if(addCoins) addCoins(10); 
+      if(addXp) addXp(20);
+      if(showToast) showToast("Direct Hit! 🎯");
+      
+      if(newMonsterHp <= 0) {
+        if(addCoins) addCoins(50); 
+        if(addXp) addXp(50); 
+        if(showToast) showToast("You Won! 🏆");
+        setMonsterHp(100); 
+        setPlayerHp(100);
       }
     } else {
-      setPlayerHp(h => Math.max(0, h - 15));
-      showToast("Try again champ! 💪");
-      if(playerHp <= 15) { showToast("You Lost! Try again!"); setMonsterHp(100); setPlayerHp(100); }
+      const newPlayerHp = Math.max(0, playerHp - 15);
+      setPlayerHp(newPlayerHp);
+      if(showToast) showToast("Wrong! Try again champ! 💪");
+      
+      if(newPlayerHp <= 0) { 
+        if(showToast) showToast("You Lost! Try again!"); 
+        setMonsterHp(100); 
+        setPlayerHp(100); 
+      }
     }
-    setAnswer(''); newQuestion();
+    setAnswer(''); 
+    newQuestion();
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleAttack();
   }
 
   return (
-    <div className="min-h-screen bg-purple-900 p-4 text-white">
-      <button onClick={onBack} className="mb-4 bg-white text-purple-900 px-4 py-2 rounded-xl font-bold">← Back Home</button>
-      <h1 className="text-3xl text-center mb-4">Wilo's Math Arena ⚔️</h1>
-      <div className="flex justify-between mb-8">
-        <div>You <div className="w-40 h-4 bg-gray-700 rounded-full mt-1"><div style={{width: `${playerHp}%`}} className="h-4 bg-green-500 rounded-full transition-all"/></div></div>
-        <div>Monster <div className="w-40 h-4 bg-gray-700 rounded-full mt-1"><div style={{width: `${monsterHp}%`}} className="h-4 bg-red-500 rounded-full transition-all"/></div></div>
+    <div style={{minHeight: '100vh', background: '#581c87', padding: 16, color: 'white'}}>
+      <button 
+        onClick={onBack} 
+        style={{marginBottom: 16, background: 'white', color: '#581c87', padding: '8px 16px', borderRadius: 12, fontWeight: 'bold', border: 'none'}}
+      >
+        ← Back Home
+      </button>
+      
+      <h1 style={{fontSize: 28, textAlign: 'center', marginBottom: 16}}>Wilo's Math Arena ⚔️</h1>
+      
+      <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 32}}>
+        <div>
+          <div>You</div>
+          <div style={{width: 160, height: 16, background: '#374151', borderRadius: 8, marginTop: 4}}>
+            <div style={{width: `${playerHp}%`, height: 16, background: '#22c55e', borderRadius: 8, transition: 'width 0.3s'}}/>
+          </div>
+        </div>
+        <div>
+          <div>Monster</div>
+          <div style={{width: 160, height: 16, background: '#374151', borderRadius: 8, marginTop: 4}}>
+            <div style={{width: `${monsterHp}%`, height: 16, background: '#ef4444', borderRadius: 8, transition: 'width 0.3s'}}/>
+          </div>
+        </div>
       </div>
-      <div className="text-center">
-        <div className="text-5xl font-bold mb-4">{question.text}</div>
-        <div className="text-2xl mb-4">Time: {timer}s</div>
-        <input type="number" value={answer} onChange={e => setAnswer(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleAttack()} className="text-black p-3 rounded-xl text-2xl w-40 text-center"/>
-        <button onClick={handleAttack} className="ml-4 bg-yellow-400 text-black px-6 py-3 rounded-xl font-bold">ATTACK!</button>
+      
+      <div style={{textAlign: 'center'}}>
+        <div style={{fontSize: 40, fontWeight: 'bold', marginBottom: 16}}>{question.text}</div>
+        <div style={{fontSize: 24, marginBottom: 16}}>Time: {timer}s</div>
+        <input 
+          type="number" 
+          value={answer} 
+          onChange={e => setAnswer(e.target.value)} 
+          onKeyDown={handleKeyDown}
+          style={{color: 'black', padding: 12, borderRadius: 12, fontSize: 24, width: 160, textAlign: 'center', border: 'none'}}
+        />
+        <button 
+          onClick={handleAttack} 
+          style={{marginLeft: 16, background: '#facc15', color: 'black', padding: '12px 24px', borderRadius: 12, fontWeight: 'bold', border: 'none'}}
+        >
+          ATTACK!
+        </button>
       </div>
     </div>
   );
-    }
+  }
