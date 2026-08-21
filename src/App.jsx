@@ -1,64 +1,27 @@
-import React, { useState } from "react";
-import AlchemyLab from "./games/AlchemyLab";
-import BodyQuest from "./games/BodyQuest";
-import CodingDash from "./games/CodingDash";
+import { useState } from "react";
 import MathArena from "./games/MathArena";
-import NaijaTrivia from "./games/NaijaTrivia";
-import StoryQuest from "./games/StoryQuest";
 
 export default function App() {
-  const [currentGame, setCurrentGame] = useState(null);
+  const [game, setGame] = useState(null);
   const [coins, setCoins] = useState(0);
   const [xp, setXp] = useState(0);
 
-  const addCoins = (amount) => setCoins(c => c + amount);
-  const addXp = (amount) => setXp(x => x + amount);
-  const showToast = (msg) => alert(msg); // simple toast for now
-
-  const gameList = [
-    { id: "alchemy", title: "Alchemy Lab", color: "bg-purple-400", component: AlchemyLab },
-    { id: "body", title: "Body Quest", color: "bg-red-400", component: BodyQuest },
-    { id: "coding", title: "Coding Dash", color: "bg-blue-400", component: CodingDash },
-    { id: "math", title: "Math Arena", color: "bg-green-400", component: MathArena },
-    { id: "naija", title: "Naija Trivia", color: "bg-yellow-400", component: NaijaTrivia },
-    { id: "story", title: "Story Quest", color: "bg-pink-400", component: StoryQuest },
-  ];
-
-  if (currentGame) {
-    const game = gameList.find(g => g.id === currentGame);
-    const GameComponent = game.component;
-    return (
-      <div>
-        <div className="fixed top-4 right-4 bg-black bg-opacity-50 px-4 py-2 rounded-xl z-50">
-          🪙 {coins} | ⭐ {xp}
-        </div>
-        <GameComponent 
-          onBack={() => setCurrentGame(null)}
-          addCoins={addCoins}
-          addXp={addXp}
-          showToast={showToast}
-        />
-      </div>
-    );
+  if (game === "math") {
+    return <MathArena 
+      onBack={() => setGame(null)} 
+      addCoins={(n) => setCoins(coins + n)} 
+      addXp={(n) => setXp(xp + n)} 
+      showToast={(msg) => alert(msg)} 
+    />
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 text-white p-6">
-      <h1 className="text-4xl font-bold text-center mb-2">Play N Learn 🦉</h1>
-      <p className="text-center mb-2">Coins: {coins} | XP: {xp}</p>
-      <p className="text-center mb-8">Pick a game and let’s learn!</p>
-
-      <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-        {gameList.map((game) => (
-          <button 
-            key={game.id} 
-            onClick={() => setCurrentGame(game.id)}
-            className={`${game.color} rounded-2xl p-6 text-center shadow-lg font-bold text-lg active:scale-95 transition`}
-          >
-            {game.title}
-          </button>
-        ))}
-      </div>
+    <div style={{padding: 20, background: 'linear-gradient(to bottom, purple, pink)', minHeight: '100vh', color: 'white', textAlign: 'center'}}>
+      <h1 style={{fontSize: 32, fontWeight: 'bold'}}>Play N Learn 🦉</h1>
+      <p>Coins: {coins} | XP: {xp}</p>
+      <button onClick={() => setGame("math")} style={{marginTop: 20, background: 'green', padding: 20, borderRadius: 12, fontSize: 18, fontWeight: 'bold', color: 'white'}}>
+        Math Arena ⚔️
+      </button>
     </div>
   );
-     }
+}
